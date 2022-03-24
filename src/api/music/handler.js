@@ -24,7 +24,7 @@ class MusicHandler {
                 status: 'success',
                 message: 'Menambahkan album',
                 data: {
-                    album: albumId
+                    albumId
                 }
             });
             response.code(201);
@@ -66,7 +66,7 @@ class MusicHandler {
                     status: 'fail',
                     message: error.message
                 });
-                response.code(response.statusCode);
+                response.code(error.statusCode);
                 return response;
             }
             const response = h.response({
@@ -190,7 +190,7 @@ class MusicHandler {
         return {
             status: 'success',
             data: {
-                song: songs,
+                songs,
             },
         };
     }
