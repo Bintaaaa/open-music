@@ -81,27 +81,28 @@ class MusicHandler {
     }
 
     async putAlbumByIdHandler(request, h) {
-        this._validator.validateAlbumPayload(request.payload);
         try {
+            this._validator.validateAlbumPayload(request.payload);
             const { id } = request.params;
             await this._service.editAlbumById(id, request.payload);
             return {
                 status: 'success',
-                message: 'Album berhasil diperbaharui'
-            }
+                message: 'Catatan berhasil diperbarui',
+            };
         } catch (error) {
             if (error instanceof ClientError) {
                 const response = h.response({
                     status: 'fail',
-                    message: error.message
+                    message: error.message,
                 });
                 response.code(error.statusCode);
                 return response;
             }
 
+            // Server ERROR!
             const response = h.response({
                 status: 'error',
-                message: 'Terjadi kesalahan pada server kami!'
+                message: 'Maaf, terjadi kegagalan pada server kami.',
             });
             response.code(500);
             console.error(error);
@@ -119,10 +120,10 @@ class MusicHandler {
             }
         } catch (error) {
             if (error instanceof ClientError) {
-                const response = {
+                const response = h.response({
                     status: 'fail',
                     message: error.message
-                }
+                });
                 response.code(error.statusCode);
                 return response;
             }
